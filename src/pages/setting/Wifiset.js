@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { ScrollView, View } from 'react-native';
-import { InputItem, Toast, Switch, List, Picker, Button, WhiteSpace, Provider } from '@ant-design/react-native'
+// import { InputItem, Toast, Switch, List, Picker, Button, WhiteSpace, Provider } from '@ant-design/react-native'
 import base64 from 'react-native-base64'
 import { i18n } from '../../i18n/index';
 import { loading_tool } from '../../common/tools';
@@ -268,7 +268,7 @@ export default Wifiset_24g = ({ id, cmd, option }) => {
     }
     return (
         <ScrollView>
-            {loading ? <Placeholders count={10} /> : <>
+            {/* {loading ? <Placeholders count={10} /> : <>
                 <List>
                     <List.Item
                         extra={
@@ -292,7 +292,7 @@ export default Wifiset_24g = ({ id, cmd, option }) => {
                 </List>
                 <WhiteSpace size="lg" />
                 <WhiteSpace size="lg" />
-            </>}
+            </>} */}
 
         </ScrollView>
     )

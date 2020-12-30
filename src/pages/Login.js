@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { View, TouchableHighlight, Text, TextInput, StyleSheet, ImageBackground, Image } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Toast, Checkbox, WhiteSpace, Flex } from '@ant-design/react-native';
+// import { Toast, Checkbox, WhiteSpace, Flex } from '@ant-design/react-native';
 import { CMD } from '../config/cmd'
 import { fetchRequest_get, fetchRequest_post } from '../common/fetchRequest'
 import base64 from 'react-native-base64'
@@ -30,7 +30,7 @@ const Login = (props) => {
     //登录
     async function login() {
         if (!username || !password) {
-            Toast.info({ content: '用户名或者密码不能为空', duration: 1, mask: false })
+            // Toast.info({ content: '用户名或者密码不能为空', duration: 1, mask: false })
             return
         }
         loading_tool(true, i18n.t('tips.logining'))
@@ -45,7 +45,7 @@ const Login = (props) => {
             .then(async res => {
                 if (res.login_fail === "fail") {
                     loading_tool(false)
-                    Toast.fail({ content: i18n.t('tips.loginfail') + res.login_times, duration: 1, mask: false })
+                    // Toast.fail({ content: i18n.t('tips.loginfail') + res.login_times, duration: 1, mask: false })
                     if (parseInt(res.login_times, 10) < 1) {
                         getNextText();
                     }
@@ -62,7 +62,7 @@ const Login = (props) => {
                     props.changeLoginState(true)
                 }
             }).catch(err=>{
-                Toast.fail({ content: '当前WiFi无网络或者不匹配', duration: 2, mask: false })
+                // Toast.fail({ content: '当前WiFi无网络或者不匹配', duration: 2, mask: false })
             })
     }
     async function rememberPassword() {
@@ -92,7 +92,7 @@ const Login = (props) => {
                 setLoginTimesIsShow(false);
             }
         }).catch(err => {
-            Toast.fail({ content: '当前WiFi无网络或者不匹配', duration: 2, mask: false })
+            // Toast.fail({ content: '当前WiFi无网络或者不匹配', duration: 2, mask: false })
         });
     }
 
@@ -108,7 +108,7 @@ const Login = (props) => {
                 value={username}
                 placeholder={i18n.t('login.username')}
             />
-            <WhiteSpace size="lg" />
+            {/* <WhiteSpace size="lg" /> */}
             <TextInput
                 style={styles.input}
                 onChangeText={text => setPassword(text)}
@@ -116,7 +116,7 @@ const Login = (props) => {
                 secureTextEntry={true}
                 placeholder={i18n.t('login.password')}
             />
-            <WhiteSpace />
+            {/* <WhiteSpace />
             <Flex style={{ width: '70%' }}>
                 <Flex.Item>
                     <Checkbox
@@ -126,7 +126,7 @@ const Login = (props) => {
                     ><Text style={{ color: '#999', fontSize: 14 }}>记住密码</Text></Checkbox>
                 </Flex.Item>
             </Flex>
-            <WhiteSpace />
+            <WhiteSpace /> */}
             <TouchableHighlight onPress={() => login()} style={styles.button} disabled={loginTimesIsShow}>
                 <Text style={styles.button_text}>{loginTimesIsShow ? `${times} s` : i18n.t('login.loginbtn')}</Text>
             </TouchableHighlight>

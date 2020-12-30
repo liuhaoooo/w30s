@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import { logout_tool, loading_tool, restart_tool,reset_tool } from '../../common/tools'
 import { StyleSheet, ScrollView, Text, View, Image } from "react-native";
 import { i18n } from '../../i18n/index';
-import { Grid, Flex, WhiteSpace, WingBlank } from '@ant-design/react-native';
+// import { Grid, Flex, WhiteSpace, WingBlank } from '@ant-design/react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { Button, Picker, Icon, Form, Item, Input, Label, Toast } from 'native-base';
 const data = [
   { icon: require("../../assets/images/0.png"), text: '2.4G设置',route:"Wifiset24g" },
   { icon: require("../../assets/images/1.png"), text: '5G设置',route:"Wifiset5g" },
@@ -40,7 +41,7 @@ export default Status = () => {
   }
   return (
     <ScrollView>
-      <View style={[{ padding: 10 }]}>
+      {/* <View style={[{ padding: 10 }]}>
         <WhiteSpace size="lg" />
         <Grid
           data={data}
@@ -49,7 +50,10 @@ export default Status = () => {
           onPress={(_el, index) => press(_el)}
           renderItem={(_el, index) => <GridItem el={_el} />}
         />
-      </View>
+      </View> */}
+      <Button block info onPress={() => navigation.push('Networksetting')}>
+                <Text>确定</Text>
+            </Button>
     </ScrollView>
   );
 }; 

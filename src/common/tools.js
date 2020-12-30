@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CMD } from "../config/cmd";
-import { Portal, Toast, Modal } from '@ant-design/react-native';
+// import { Portal, Toast, Modal } from '@ant-design/react-native';
 import { fetchRequest_get, fetchRequest_post } from "./fetchRequest";
 import store from '../redux/reducer/index'
 import { i18n } from '../i18n/index';
@@ -13,22 +13,22 @@ export const logout_tool = (message) => {
         });
         return
     }
-    Modal.alert(i18n.t('tips.tip'), message, [
-        {
-            text: i18n.t('tips.cancel'),
-            onPress: () => { },
-            style: 'cancel',
-        },
-        {
-            text: i18n.t('tips.ok'),
-            onPress: () => {
-                fetchRequest_post({ cmd: CMD.LOGOUT }).then(res => {
-                    AsyncStorage.removeItem('storageData');
-                    store.dispatch(changeLoginStateAction(false))
-                });
-            }
-        }
-    ]);
+    // Modal.alert(i18n.t('tips.tip'), message, [
+    //     {
+    //         text: i18n.t('tips.cancel'),
+    //         onPress: () => { },
+    //         style: 'cancel',
+    //     },
+    //     {
+    //         text: i18n.t('tips.ok'),
+    //         onPress: () => {
+    //             fetchRequest_post({ cmd: CMD.LOGOUT }).then(res => {
+    //                 AsyncStorage.removeItem('storageData');
+    //                 store.dispatch(changeLoginStateAction(false))
+    //             });
+    //         }
+    //     }
+    // ]);
 }
 
 
@@ -37,21 +37,21 @@ export const restart_tool = (message) => {
         fetchRequest_post({ cmd: CMD.SYS_REBOOT, rebootType: 2 }).then(() => { });
         return
     }
-    Modal.alert(i18n.t('tips.tip'), message, [
-        {
-            text: i18n.t('tips.cancel'),
-            onPress: () => { },
-            style: 'cancel',
-        },
-        {
-            text: i18n.t('tips.ok'),
-            onPress: () => {
-                fetchRequest_post({ cmd: CMD.SYS_REBOOT, rebootType: 2 }).then(res => {
-                    console.log(res, '--------------')
-                });
-            }
-        }
-    ]);
+    // Modal.alert(i18n.t('tips.tip'), message, [
+    //     {
+    //         text: i18n.t('tips.cancel'),
+    //         onPress: () => { },
+    //         style: 'cancel',
+    //     },
+    //     {
+    //         text: i18n.t('tips.ok'),
+    //         onPress: () => {
+    //             fetchRequest_post({ cmd: CMD.SYS_REBOOT, rebootType: 2 }).then(res => {
+    //                 console.log(res, '--------------')
+    //             });
+    //         }
+    //     }
+    // ]);
 }
 export const reset_tool = (message) => {
     if (!message) {
@@ -84,11 +84,11 @@ export const loading_tool = (tag, msg = '') => {
     let load = store.getState()
     if (tag) {
         try {
-            Portal.remove(load.loadingKey)
+            // Portal.remove(load.loadingKey)
         } catch (error) { }
-        const loading = Toast.loading({ content: msg ? msg : i18n.t('tips.wait'), duration: 15 })
+        // const loading = Toast.loading({ content: msg ? msg : i18n.t('tips.wait'), duration: 15 })
         store.dispatch(changeLoading(loading))
     } else {
-        Portal.remove(load.loadingKey)
+        // Portal.remove(load.loadingKey)
     }
 }

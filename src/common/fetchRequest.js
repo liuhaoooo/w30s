@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios'
-import { Toast, Modal,Portal } from '@ant-design/react-native';
+// import axios from 'axios'
+// import { Toast, Modal,Portal } from '@ant-design/react-native';
 import { common_url } from '../config/cmd'
 import store from '../redux/reducer/index'
 import { i18n } from '../i18n/index';
@@ -44,7 +44,7 @@ async function fetchRequest(method = 'POST', params = '') {
                 }
                 resolve(res);
             }).catch(err => {
-                Portal.remove(store.getState().loadingKey)
+                // Portal.remove(store.getState().loadingKey)
                 // Toast.info({ content: i18n.t('tips.fail'), duration: 1, mask: false })
                 reject(err);
             });

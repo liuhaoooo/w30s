@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { View, Button, Text, ScrollView } from 'react-native'
-import { List, WhiteSpace, WingBlank, SwipeAction } from '@ant-design/react-native';
+// import { List, WhiteSpace, WingBlank, SwipeAction } from '@ant-design/react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import Placeholders from '../../components/Placeholders'
 import { CMD } from '../../config/cmd'
@@ -66,7 +66,7 @@ const Info = () => {
             {
                 loading ? <Placeholders count={18} /> :
                     <>
-                        <List renderHeader={i18n.t('info.renderHeader1')}>
+                        {/* <List renderHeader={i18n.t('info.renderHeader1')}>
                             {
                                 deviceInfo.map((item, index) => (
                                     <List.Item extra={item.value} key={index}>{item.label}</List.Item>
@@ -86,7 +86,7 @@ const Info = () => {
                                     <List.Item extra={item.value} key={index}>{item.label}</List.Item>
                                 ))
                             }
-                        </List>
+                        </List> */}
                     </>
             }
         </ScrollView>

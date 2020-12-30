@@ -8,7 +8,7 @@ import { Root } from "native-base";
 //react-navigation
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
-// import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 //pages
 import { connect } from 'react-redux';
 import { changeConnectAction, changeConfigData } from './src/redux/action'
@@ -97,17 +97,19 @@ const App = (props) => {
   }
   return (
     <Root>
-      <NavigationContainer theme={MyTheme}  /*theme={scheme === 'dark' ? DarkTheme : DefaultTheme}*/>
-        <Stack.Navigator gesturesEnabled={true}>
-          {[...(props.isConnect ? (props.loginState ? authScreens : userScreens) : disconnect)].map((item, index) => (
-            <Stack.Screen
-              options={() => option(item)}
-              name={item.name}
-              component={item.component}
-              key={index} />
-          ))}
-        </Stack.Navigator>
-      </NavigationContainer>
+      <SafeAreaProvider>
+        <NavigationContainer theme={MyTheme}  /*theme={scheme === 'dark' ? DarkTheme : DefaultTheme}*/>
+          <Stack.Navigator gesturesEnabled={true}>
+            {[...(props.isConnect ? (props.loginState ? authScreens : userScreens) : disconnect)].map((item, index) => (
+              <Stack.Screen
+                options={() => option(item)}
+                name={item.name}
+                component={item.component}
+                key={index} />
+            ))}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaProvider>
     </Root>
   )
 }

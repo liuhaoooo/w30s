@@ -4,8 +4,7 @@ import {
     StyleSheet,
     ScrollView,
 } from 'react-native';
-// import { InputItem, Button, Switch, List, Picker, WhiteSpace, Provider } from '@ant-design/react-native'
-import { Container, Button, Content, Picker, Form, Toast, Text } from 'native-base';
+import { ActionSheet, Button, ListItem, Text, Icon, Left, Body, Right, Switch } from 'native-base';
 export default Networksetting = () => {
     const [dynamicValidateForm, setdynamicValidateForm] = useState(
         {
@@ -19,91 +18,72 @@ export default Networksetting = () => {
         obj[type] = text;
         setdynamicValidateForm(obj)
     }
+    var BUTTONS = [
+        { text: "Option 0", icon: "american-football", iconColor: "#2c8ef4" },
+        { text: "Option 1", icon: "analytics", iconColor: "#f42ced" },
+        { text: "Option 2", icon: "aperture", iconColor: "#ea943b" },
+        { text: "Delete", icon: "trash", iconColor: "#fa213b" },
+        { text: "Cancel", icon: "close", iconColor: "#25de5b" }
+      ];
     return (
         <ScrollView>
-            <Container>
-                <Content>
-                    <Button onPress={() => Toast.show({
-                        text: 'Wrong password!',
-                        buttonText: 'Okay',
-                        position: 'center'
-                    })}>
-                        <Text>Toast</Text>
+            <Button
+                onPress={() =>
+                    ActionSheet.show(
+                        {
+                            options: BUTTONS,
+                            cancelButtonIndex: 3,
+                            destructiveButtonIndex: 4,
+                            title: "Testing ActionSheet"
+                        },
+                        buttonIndex => {
+                            // this.setState({ clicked: BUTTONS[buttonIndex] });
+                        }
+                    )}
+            >
+                <Text>Actionsheet</Text>
+            </Button>
+            <ListItem icon>
+                <Left>
+                    <Button style={{ backgroundColor: "#FF9501" }}>
+                        <Icon active name="airplane" />
                     </Button>
-                    <Form>
-                        <Picker
-                            note
-                            mode="dropdown"
-                            style={{ width: 120 }}
-                            selectedValue={dynamicValidateForm.bandwidth}
-                            onValueChange={text => changeText('bandwidth', text)}
-                        >
-                            <Picker.Item label="Wallet" value="key0" />
-                            <Picker.Item label="ATM Card" value="key1" />
-                            <Picker.Item label="Debit Card" value="key2" />
-                            <Picker.Item label="Credit Card" value="key3" />
-                            <Picker.Item label="Net Banking" value="key4" />
-                        </Picker>
-                    </Form>
-
-                </Content>
-            </Container>
-            {/* <Form.elForm
-                model={dynamicValidateForm}
-                ref={ref => setFormVal(ref)}>
-                <List>
-                    <Picker
-                        title="选择带宽"
-                        data={encryption_option}
-                        cols={1}
-                        value={dynamicValidateForm.bandwidth}
-                        onChange={text => changeText('bandwidth', text)}
-                        onOk={text => changeText('bandwidth', text)}
-                    >
-                        <List.Item arrow="horizontal">带宽</List.Item>
-                    </Picker>
-                    <List.Item>
-                        <Form.elFormItem
-                            prop="phone"
-                            label="设置"
-                            rules={[
-                                { required: true, message: 'Please enter  numerals' },
-                                { pattern: /^\d{6}$/, message: 'Please enter 6 Arabic numerals' }
-                            ]}
-                        >
-                            <InputItem
-                                clear
-                                value={dynamicValidateForm.phone}
-                                onChange={text => changeText('phone', text)}
-                                placeholder="请输入"
-                            />
-                        </Form.elFormItem>
-                    </List.Item>
-                    <List.Item>
-                        <Form.elFormItem
-                            prop="phone"
-                            label="设置"
-                            rules={[
-                                { required: true, message: 'Please enter  numerals' },
-                                { pattern: /^\d{6}$/, message: 'Please enter 6 Arabic numerals' }
-                            ]}
-                        >
-                            <InputItem
-                                clear
-                                value={dynamicValidateForm.phone}
-                                onChange={text => changeText('phone', text)}
-                                placeholder="请输入"
-                            />
-                        </Form.elFormItem>
-                    </List.Item>
-                    <List.Item>
-                        <Button
-                            onPress={() => submit()}
-                            type="primary"
-                        >确定</Button>
-                    </List.Item>
-                </List>
-            </Form.elForm> */}
+                </Left>
+                <Body>
+                    <Text>Airplane Mode</Text>
+                </Body>
+                <Right>
+                    <Switch value={false} />
+                </Right>
+            </ListItem>
+            <ListItem icon>
+                <Left>
+                    <Button style={{ backgroundColor: "#007AFF" }}>
+                        <Icon active name="wifi" />
+                    </Button>
+                </Left>
+                <Body>
+                    <Text>Wi-Fi</Text>
+                </Body>
+                <Right>
+                    <Text>GeekyAnts</Text>
+                    <Icon active name="arrow-forward" />
+                </Right>
+            </ListItem>
+            <ListItem icon>
+                <Left>
+                    <Button style={{ backgroundColor: "#007AFF" }}>
+                        <Icon active name="bluetooth" />
+                    </Button>
+                </Left>
+                <Body>
+                    <Text>Bluetooth</Text>
+                </Body>
+                <Right>
+                    <Text>On</Text>
+                    <Icon active name="arrow-forward" />
+                </Right>
+            </ListItem>
         </ScrollView>
     )
 }
@@ -122,45 +102,3 @@ const styles = StyleSheet.create({
     }
 });
 
-
-// import React from 'react';
-// import Button from '@material-ui/core/Button';
-// import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-
-// class Networksetting extends React.Component {
-
-//     state = {
-//         email: '',
-//     }
-
-//     handleChange = (event) => {
-//         const email = event.target.value;
-//         this.setState({ email });
-//     }
-
-//     handleSubmit = () => {
-//         // your submit logic
-//     }
-
-//     render() {
-//         const { email } = this.state;
-//         return (
-//             <ValidatorForm
-//                 ref="form"
-//                 onSubmit={this.handleSubmit}
-//                 onError={errors => console.log(errors)}
-//             >
-//                 <TextValidator
-//                     label="Email"
-//                     onChange={this.handleChange}
-//                     name="email"
-//                     value={email}
-//                     validators={['required', 'isEmail']}
-//                     errorMessages={['this field is required', 'email is not valid']}
-//                 />
-//                 {/* <Button type="submit">Submit</Button> */}
-//             </ValidatorForm>
-//         );
-//     }
-// }
-// export default Networksetting
