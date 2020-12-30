@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { View, Button, Text, ScrollView } from 'react-native'
-// import { List, WhiteSpace, WingBlank, SwipeAction } from '@ant-design/react-native';
+import { View, ScrollView, StyleSheet } from 'react-native'
+import { List, ListItem, Text, Left, Body, Right } from 'native-base';
 import { useFocusEffect } from '@react-navigation/native';
 import Placeholders from '../../components/Placeholders'
 import { CMD } from '../../config/cmd'
@@ -66,31 +66,65 @@ const Info = () => {
             {
                 loading ? <Placeholders count={18} /> :
                     <>
-                        {/* <List renderHeader={i18n.t('info.renderHeader1')}>
+                        <List>
+                            <ListItem itemDivider>
+                                <Text style={styles.title_text}>{i18n.t('info.renderHeader1')}</Text>
+                            </ListItem>
                             {
                                 deviceInfo.map((item, index) => (
-                                    <List.Item extra={item.value} key={index}>{item.label}</List.Item>
+                                    <ListItem key={index}>
+                                        <Left>
+                                            <Text>{item.label}</Text>
+                                        </Left>
+                                        <View style={styles.text}>
+                                            <Text style={{ textAlign: 'right' }} numberOfLines={1}>{item.value}</Text>
+                                        </View>
+                                    </ListItem>
                                 ))
                             }
-                        </List>
-                        <List renderHeader={i18n.t('info.renderHeader2')}>
+                            <ListItem itemDivider>
+                                <Text style={styles.title_text}>{i18n.t('info.renderHeader2')}</Text>
+                            </ListItem>
                             {
                                 ipv4Info.map((item, index) => (
-                                    <List.Item extra={item.value} key={index}>{item.label}</List.Item>
+                                    <ListItem key={index}>
+                                        <Left>
+                                            <Text>{item.label}</Text>
+                                        </Left>
+                                        <View style={styles.text}>
+                                            <Text style={{ textAlign: 'right' }} numberOfLines={1}>{item.value}</Text>
+                                        </View>
+                                    </ListItem>
+                                ))
+                            }
+                            <ListItem itemDivider>
+                                <Text style={styles.title_text}>{i18n.t('info.renderHeader3')}</Text>
+                            </ListItem>
+                            {
+                                ipv6Info.map((item, index) => (
+                                    <ListItem key={index}>
+                                        <Left>
+                                            <Text>{item.label}</Text>
+                                        </Left>
+                                        <View style={styles.text}>
+                                            <Text style={{ textAlign: 'right' }} numberOfLines={1}>{item.value}</Text>
+                                        </View>
+                                    </ListItem>
                                 ))
                             }
                         </List>
-                        <List renderHeader={i18n.t('info.renderHeader3')}>
-                            {
-                                ipv6Info.map((item, index) => (
-                                    <List.Item extra={item.value} key={index}>{item.label}</List.Item>
-                                ))
-                            }
-                        </List> */}
                     </>
             }
         </ScrollView>
     )
 }
-
+const styles = StyleSheet.create({
+    text: {
+        maxWidth: '40%',
+        minWidth: '10%'
+    },
+    title_text:{
+        color:'#999'
+    }
+})
 export default Info

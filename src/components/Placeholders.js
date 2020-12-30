@@ -1,6 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
-import { WhiteSpace } from '@ant-design/react-native';
+// import { WhiteSpace } from '@ant-design/react-native';
 // import {
 //     Placeholder,
 //     PlaceholderMedia,
@@ -23,5 +23,5 @@ export default Placeholders = ({count}) => {
     //         </Placeholder>
     //     )
     // }
-    return (<View><WhiteSpace size="lg" />{arr}</View>)
+    return (<View>{arr}</View>)
 }

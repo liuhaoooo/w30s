@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { View, TouchableHighlight, Text, TextInput, StyleSheet, ImageBackground, Image } from 'react-native'
+import { View, TouchableHighlight, Text, TextInput, StyleSheet, Image } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { Toast, Checkbox, WhiteSpace, Flex } from '@ant-design/react-native';
+import { Button, Item, Input, Label, Icon, Spinner } from 'native-base';
 import { CMD } from '../config/cmd'
 import { fetchRequest_get, fetchRequest_post } from '../common/fetchRequest'
 import base64 from 'react-native-base64'
@@ -33,7 +33,7 @@ const Login = (props) => {
             // Toast.info({ content: '用户名或者密码不能为空', duration: 1, mask: false })
             return
         }
-        loading_tool(true, i18n.t('tips.logining'))
+        // loading_tool(true, i18n.t('tips.logining'))
         rememberPassword()
         let json = {
             cmd: CMD.LOGIN,
@@ -44,7 +44,7 @@ const Login = (props) => {
         fetchRequest_post(json)
             .then(async res => {
                 if (res.login_fail === "fail") {
-                    loading_tool(false)
+                    // loading_tool(false)
                     // Toast.fail({ content: i18n.t('tips.loginfail') + res.login_times, duration: 1, mask: false })
                     if (parseInt(res.login_times, 10) < 1) {
                         getNextText();
@@ -58,10 +58,10 @@ const Login = (props) => {
                         }
                         await AsyncStorage.setItem('storageData', JSON.stringify(data));
                     } catch (error) { }
-                    loading_tool(false)
+                    // loading_tool(false)
                     props.changeLoginState(true)
                 }
-            }).catch(err=>{
+            }).catch(err => {
                 // Toast.fail({ content: '当前WiFi无网络或者不匹配', duration: 2, mask: false })
             })
     }
@@ -102,22 +102,22 @@ const Login = (props) => {
                 style={styles.logo}
                 source={require('../assets/images/logo.png')}
             />
-            <TextInput
-                style={styles.input}
-                onChangeText={text => setUsername(text)}
-                value={username}
-                placeholder={i18n.t('login.username')}
-            />
-            {/* <WhiteSpace size="lg" /> */}
-            <TextInput
-                style={styles.input}
-                onChangeText={text => setPassword(text)}
-                value={password}
-                secureTextEntry={true}
-                placeholder={i18n.t('login.password')}
-            />
-            {/* <WhiteSpace />
-            <Flex style={{ width: '70%' }}>
+            <Item rounded style={styles.input}>
+                <Icon active name='person' style={{ color: '#999', fontSize: 20 }} />
+                <Input
+                    placeholder={i18n.t('login.username')}
+                    onChangeText={text => setUsername(text)}
+                    value={username} />
+            </Item>
+            <Item rounded style={styles.input}>
+                <Icon active name='eye' style={{ color: '#999', fontSize: 20 }} />
+                <Input
+                    placeholder={i18n.t('login.password')}
+                    onChangeText={text => setPassword(text)}
+                    value={password}
+                    secureTextEntry={true} />
+            </Item>
+            {/*<Flex style={{ width: '70%' }}>
                 <Flex.Item>
                     <Checkbox
                         checked={rememberPass}
@@ -125,10 +125,10 @@ const Login = (props) => {
                         onChange={e => setRememberPass(e.target.checked)}
                     ><Text style={{ color: '#999', fontSize: 14 }}>记住密码</Text></Checkbox>
                 </Flex.Item>
-            </Flex>
-            <WhiteSpace /> */}
+            </Flex> */}
             <TouchableHighlight onPress={() => login()} style={styles.button} disabled={loginTimesIsShow}>
-                <Text style={styles.button_text}>{loginTimesIsShow ? `${times} s` : i18n.t('login.loginbtn')}</Text>
+                {true ? <Text style={styles.button_text}>{loginTimesIsShow ? `${times} s` : i18n.t('login.loginbtn')}</Text> :
+                    <Spinner color='#fff' style={{ height: 46 }} />}
             </TouchableHighlight>
         </View>
     )
@@ -150,24 +150,23 @@ const styles = StyleSheet.create({
         backgroundColor: '#eeeeee',
     },
     input: {
-        height: 40,
         width: '70%',
-        borderColor: 'gray',
-        borderWidth: 1,
+        marginBottom: 10,
+        marginTop: 10,
         backgroundColor: '#fff',
-        borderRadius: 6,
-        borderColor: '#eeeeee'
     },
     button: {
         backgroundColor: '#409EFF',
         width: '70%',
-        height: 40,
-        borderRadius: 8,
+        height: 46,
+        marginTop: 10,
+        borderRadius: 20,
     },
     button_text: {
         textAlign: 'center',
-        lineHeight: 40,
-        color: '#fff'
+        lineHeight: 46,
+        color: '#fff',
+        fontSize: 16
     },
     code: {
         justifyContent: 'center',
