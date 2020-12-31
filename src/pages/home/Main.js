@@ -146,18 +146,10 @@ import { fetchRequest_get, fetchRequest_post } from '../../common/fetchRequest'
 //         </>
 //     )
 // }
-// const DeviceList = () => {
-//     return (
-//         <View>
-            
-//         </View>
-//     )
-// }
 const Main = () => {
 
     return (
         <LinearGradient colors={['#fff', '#fff', '#fff']} style={{ height: '100%' }}>
-            {/* <ImageBackground source={require('../../assets/images/background_main.jpg')} style={{ width: '100%', height: '100%' }}> */}
             <ScrollView
                 automaticallyAdjustContentInsets={false}
                 showsHorizontalScrollIndicator={false}
@@ -171,7 +163,6 @@ const Main = () => {
                 </>
             </ScrollView>
         </LinearGradient>
-        // {/* </ImageBackground> */}
     )
 }
 //style

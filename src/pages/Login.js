@@ -1,13 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { View, TouchableHighlight, Text, TextInput, StyleSheet, Image } from 'react-native'
+import { View, TouchableHighlight, Text, StyleSheet, Image } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Button, Item, Input, Label, Icon, Spinner } from 'native-base';
+import { Item, Input, Icon, Spinner, CheckBox, Toast } from 'native-base';
 import { CMD } from '../config/cmd'
 import { fetchRequest_get, fetchRequest_post } from '../common/fetchRequest'
 import base64 from 'react-native-base64'
 import { connect } from 'react-redux';
 import { changeLoginStateAction } from '../redux/action/index';
-import { loading_tool } from '../common/tools';
 import { i18n } from '../i18n/index';
 const Login = (props) => {
     const [username, setUsername] = useState('')
@@ -19,6 +18,16 @@ const Login = (props) => {
     useEffect(() => {
         init()
     }, []);
+    function _Toast(text,type="warning") {
+        Toast.show({
+            text,
+            type,
+            buttonText: '',
+            position: 'center',
+            duration: 1500,
+            textStyle:{textAlign:'center'}
+        })
+    }
     async function init() {
         getNextText()
         try {
@@ -30,10 +39,10 @@ const Login = (props) => {
     //登录
     async function login() {
         if (!username || !password) {
-            // Toast.info({ content: '用户名或者密码不能为空', duration: 1, mask: false })
+            _Toast('用户名或者密码不能为空')
             return
         }
-        // loading_tool(true, i18n.t('tips.logining'))
+        setLoginLoading(true)
         rememberPassword()
         let json = {
             cmd: CMD.LOGIN,
@@ -44,8 +53,7 @@ const Login = (props) => {
         fetchRequest_post(json)
             .then(async res => {
                 if (res.login_fail === "fail") {
-                    // loading_tool(false)
-                    // Toast.fail({ content: i18n.t('tips.loginfail') + res.login_times, duration: 1, mask: false })
+                    _Toast(i18n.t('tips.loginfail') + res.login_times)
                     if (parseInt(res.login_times, 10) < 1) {
                         getNextText();
                     }
@@ -58,11 +66,12 @@ const Login = (props) => {
                         }
                         await AsyncStorage.setItem('storageData', JSON.stringify(data));
                     } catch (error) { }
-                    // loading_tool(false)
                     props.changeLoginState(true)
                 }
+                setLoginLoading(false)
             }).catch(err => {
-                // Toast.fail({ content: '当前WiFi无网络或者不匹配', duration: 2, mask: false })
+                _Toast('当前WiFi无网络或者不匹配')
+                setLoginLoading(false)
             })
     }
     async function rememberPassword() {
@@ -92,7 +101,7 @@ const Login = (props) => {
                 setLoginTimesIsShow(false);
             }
         }).catch(err => {
-            // Toast.fail({ content: '当前WiFi无网络或者不匹配', duration: 2, mask: false })
+            _Toast('当前WiFi无网络或者不匹配')
         });
     }
 
@@ -117,17 +126,15 @@ const Login = (props) => {
                     value={password}
                     secureTextEntry={true} />
             </Item>
-            {/*<Flex style={{ width: '70%' }}>
-                <Flex.Item>
-                    <Checkbox
-                        checked={rememberPass}
-                        style={{ color: '#67bdfb' }}
-                        onChange={e => setRememberPass(e.target.checked)}
-                    ><Text style={{ color: '#999', fontSize: 14 }}>记住密码</Text></Checkbox>
-                </Flex.Item>
-            </Flex> */}
-            <TouchableHighlight onPress={() => login()} style={styles.button} disabled={loginTimesIsShow}>
-                {true ? <Text style={styles.button_text}>{loginTimesIsShow ? `${times} s` : i18n.t('login.loginbtn')}</Text> :
+            <View style={{ width: '70%', justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'center' }}>
+                <CheckBox
+                    onPress={() => setRememberPass(!rememberPass)}
+                    checked={rememberPass}
+                    color="#67bdfb" />
+                <Text style={{ color: '#999', fontSize: 14, marginLeft: 20 }}>记住密码</Text>
+            </View>
+            <TouchableHighlight onPress={() => login()} style={styles.button} disabled={loginTimesIsShow || loginLoading}>
+                {!loginLoading ? <Text style={styles.button_text}>{loginTimesIsShow ? `${times} s` : i18n.t('login.loginbtn')}</Text> :
                     <Spinner color='#fff' style={{ height: 46 }} />}
             </TouchableHighlight>
         </View>

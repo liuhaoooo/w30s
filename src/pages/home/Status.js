@@ -14,7 +14,7 @@ const data = [
   [
     { icon: require("../../assets/images/3.png"), text: '修改密码', route: "Password" },
     { icon: require("../../assets/images/4.png"), text: '无线中继', route: "Relay" },
-    { icon: require("../../assets/images/5.png"), text: '网络工具', route: "Networksetting" }
+    { icon: require("../../assets/images/5.png"), text: '系统设置', route: "SysSetting" }
   ],
   [
     { icon: require("../../assets/images/6.png"), text: '退出登录', id: 1 },

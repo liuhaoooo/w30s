@@ -6,6 +6,7 @@ import { CMD } from "../../config/cmd";
 import { loading_tool } from '../../common/tools';
 import { fetchRequest_get, fetchRequest_post } from '../../common/fetchRequest'
 import { Button, Picker, Icon, Form, Item, Input, Label, Text, Toast } from 'native-base';
+import { MyPicker, MyInput } from '../../components/FormItems'
 
 const Password = (props) => {
     const navigation = useNavigation();
@@ -19,8 +20,12 @@ const Password = (props) => {
         position: "center",
         type: "success",
         textStyle: { textAlign: 'center' },
-        style: { backgroundColor:'rgba(103, 194, 58,1)' }
+        style: { backgroundColor: 'rgba(103, 194, 58,1)' }
     }
+    const userType_option = [
+        { label: '管理员账户', value: '1' },
+        { label: '普通账户', value: '2' },
+    ]
     // useEffect(() => {
     //     try {
     //         // props.account_level == "1" ? newPasswdInput.focus() : oldPasswdInput.focus()
@@ -80,33 +85,29 @@ const Password = (props) => {
             showsVerticalScrollIndicator={false}
         >
             <Form>
-                {props.account_level === '1' ? <Item picker last>
-                    <Label>账号类型</Label>
-                    <Picker
-                        mode="dialog"
-                        iosIcon={<Icon name="arrow-down" />}
-                        placeholder="账号类型"
-                        selectedValue={userType}
-                        onValueChange={val => setUserType(val)}
-                    >
-                        <Picker.Item label="管理员账户" value="1" />
-                        <Picker.Item label="普通账户" value="2" />
-                    </Picker>
-                </Item> :
-                    <Item regular last>
-                        <Label>旧密码</Label>
-                        <Input value={oldPasswd} onChange={value => setOldPasswd(value)} />
-                    </Item>}
-                <Item regular last>
-                    <Label>新密码</Label>
-                    <Input value={newPasswd} onChange={value => setNewPasswd(value)} />
-                </Item>
-                <Item regular last>
-                    <Label>确认密码</Label>
-                    <Input value={confirmPasswd} onChange={value => setConfirmPasswd(value)} />
-                </Item>
+                {props.account_level === '1' ?
+                    <MyPicker
+                        onChange={(val) => { setUserType(val) }}
+                        title='账号类型'
+                        value={userType}
+                        options={userType_option} /> :
+                    <MyInput
+                        onChange={(val) => { setOldPasswd(val) }}
+                        title='旧密码'
+                        password={true}
+                        inputValue={oldPasswd} />}
+                <MyInput
+                    onChange={(val) => { setNewPasswd(val) }}
+                    title='新密码'
+                    password={true}
+                    inputValue={newPasswd} />
+                <MyInput
+                    onChange={(val) => { setConfirmPasswd(val) }}
+                    title='确认密码'
+                    password={true}
+                    inputValue={confirmPasswd} />
             </Form>
-            <Button block info onPress={() => postData()}>
+            <Button block info onPress={() => postData()} style={{ marginTop: 20 }}>
                 <Text>确定</Text>
             </Button>
         </ScrollView>

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { View, ScrollView, StyleSheet } from 'react-native'
-import { List, ListItem, Text, Left, Body, Right } from 'native-base';
+import { List, ListItem, Text, Left } from 'native-base';
 import { useFocusEffect } from '@react-navigation/native';
 import Placeholders from '../../components/Placeholders'
 import { CMD } from '../../config/cmd'
@@ -123,8 +123,8 @@ const styles = StyleSheet.create({
         maxWidth: '40%',
         minWidth: '10%'
     },
-    title_text:{
-        color:'#999'
+    title_text: {
+        color: '#999'
     }
 })
 export default Info

@@ -1,31 +1,33 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { ScrollView, View } from 'react-native';
-// import { InputItem, Toast, Switch, List, Picker, Button, WhiteSpace, Provider } from '@ant-design/react-native'
+import { Container, Content, Button, Text, Separator, Header } from 'native-base';
 import base64 from 'react-native-base64'
 import { i18n } from '../../i18n/index';
 import { loading_tool } from '../../common/tools';
 import { fetchRequest_get, fetchRequest_post } from '../../common/fetchRequest'
 import { useFocusEffect } from '@react-navigation/native';
 import Placeholders from '../../components/Placeholders'
+import { MySwitch, MyPicker, MyInput } from '../../components/FormItems'
+
 export default Wifiset_24g = ({ id, cmd, option }) => {
     let _isMounted = true
     const [wifiOpen, setWifiOpen] = useState(true)//wifi开关
     const [wifiHide, setWifiHide] = useState(false)//wifi隐藏
     const [ssid, setSsid] = useState("")//ssid
     const [password, setPassword] = useState("")//wifi密码
-    const [encryType, setEncryType] = useState([])//加密方式
-    const [wpaEncryType, setWpaEncryType] = useState([])//wpa加密
-    const [wepType, setWepType] = useState([])//WEP认证
-    const [keylen, setKeylen] = useState([])//加密长度
+    const [encryType, setEncryType] = useState('')//加密方式
+    const [wpaEncryType, setWpaEncryType] = useState('')//wpa加密
+    const [wepType, setWepType] = useState('')//WEP认证
+    const [keylen, setKeylen] = useState('')//加密长度
     const [key, setKey] = useState('')//密钥
     const [wmm, setWmm] = useState(true)//wmm
     const [first5g, setFirst5g] = useState(false)//5G
     //高级设置
     const [showAdv, setShowAdv] = useState(false)//是否显示高级设置
-    const [power, setPower] = useState([])//发射功率
-    const [channel, setChannel] = useState([])//信道
-    const [workMode, setWorkMode] = useState([])//Wi-Fi工作模式
-    const [bandwidth, setBandwidth] = useState([])//带宽
+    const [power, setPower] = useState('')//发射功率
+    const [channel, setChannel] = useState('')//信道
+    const [workMode, setWorkMode] = useState('')//Wi-Fi工作模式
+    const [bandwidth, setBandwidth] = useState('')//带宽
     const [loading, setLoading] = useState(true)
     useFocusEffect(
         React.useCallback(() => {
@@ -37,6 +39,7 @@ export default Wifiset_24g = ({ id, cmd, option }) => {
     useEffect(() => {
         setLoading(true)
     }, [])
+
     const getData = async () => {
         let res = await fetchRequest_get({ cmd: cmd.get, subcmd: 0 });
         let res_adv = await fetchRequest_get({ cmd: cmd.get_adv });
@@ -48,16 +51,16 @@ export default Wifiset_24g = ({ id, cmd, option }) => {
         setWifiHide(res.broadcast == '1')
         id == '5g' && setFirst5g(res.wifiSames == '1')
         setPassword(res.key)
-        setEncryType([res.authenticationType])
-        setWpaEncryType([res.wpa])
-        setWepType([res.wepauthentication])
-        setKeylen([res.keylen])
+        setEncryType(res.authenticationType)
+        setWpaEncryType(res.wpa)
+        setWepType(res.wepauthentication)
+        setKeylen(res.keylen)
         setKey(res.key1)
         setWmm(res.wifiwmm == '1')
-        setPower([res_adv.txPower])
-        setChannel([res_adv.channel])
-        setWorkMode([res_adv.wifiWorkMode])
-        setBandwidth([res_adv.bandWidth])
+        setPower(res_adv.txPower)
+        setChannel(res_adv.channel)
+        setWorkMode(res_adv.wifiWorkMode)
+        setBandwidth(res_adv.bandWidth)
         setLoading(false)
     }
     const post = () => {
@@ -112,188 +115,114 @@ export default Wifiset_24g = ({ id, cmd, option }) => {
     const WifiSet = () => {
         return (
             <>
-                <List>
-                    {
-                        id == '5g' ?
-                            <List.Item
-                                extra={
-                                    <Switch
-                                        checked={first5g}
-                                        onChange={val => setFirst5g(val)}
-                                    />
-                                }
-                            >5G优选</List.Item> : null
-                    }
-                    <List.Item
-                        extra={
-                            <Switch
-                                checked={wifiHide}
-                                onChange={val => setWifiHide(val)}
-                            />
-                        }
-                    >Wi-Fi隐藏</List.Item>
-                    <InputItem
-                        clear
-                        value={ssid}
-                        onChange={value => setSsid(value)}
-                        placeholder="请输入"
-                    >Wi-Fi名</InputItem>
-                    <Picker
-                        title="选择加密方式"
-                        data={option.encryption_option}
-                        cols={1}
-                        value={encryType}
-                        onChange={val => setEncryType(val)}
-                        onOk={val => setEncryType(val)}
-                    >
-                        <List.Item arrow="horizontal">加密方式</List.Item>
-                    </Picker>
-                    {encryType == 'OPEN' ? null : encryType == 'WEP' ?
-                        <>
-                            <Picker
-                                title="选择WEP认证"
-                                data={option.wep_option}
-                                cols={1}
-                                value={wepType}
-                                onChange={val => setWepType(val)}
-                                onOk={val => setWepType(val)}
-                            >
-                                <List.Item arrow="horizontal">WEP认证</List.Item>
-                            </Picker>
-                            <Picker
-                                title="选择加密长度"
-                                data={option.keylen_option}
-                                cols={1}
-                                value={keylen}
-                                onChange={val => setKeylen(val)}
-                                onOk={val => setKeylen(val)}
-                            >
-                                <List.Item arrow="horizontal">加密长度</List.Item>
-                            </Picker>
-                            <InputItem
-                                clear
-                                value={key}
-                                onChange={value => setKey(value)}
-                                placeholder="请输入"
-                            >密钥</InputItem>
-                        </> :
-                        <>
-                            <Picker
-                                title="选择WPA加密"
-                                data={option.wpa_option}
-                                cols={1}
-                                value={wpaEncryType}
-                                onChange={val => setWpaEncryType(val)}
-                                onOk={val => setWpaEncryType(val)}
-                            >
-                                <List.Item arrow="horizontal">WPA加密</List.Item>
-                            </Picker>
-                            <InputItem
-                                clear
-                                type="password"
-                                value={password}
-                                onChange={value => setPassword(value)}
-                                placeholder="请输入"
-                            >密码</InputItem>
-                        </>}
-                    <List.Item
-                        extra={
-                            <Switch
-                                checked={wmm}
-                                onChange={val => setWmm(val)}
-                            />
-                        }
-                    >WMM</List.Item>
+                <Separator bordered>
+                    <Text>基础设置</Text>
+                </Separator>
+                {
+                    id == '5g' ? <MySwitch
+                        onChange={(val) => { setFirst5g(val) }}
+                        title='5G优选'
+                        value={first5g} /> : null
+                }
+                <MyInput
+                    onChange={(val) => { setSsid(val) }}
+                    title='Wi-Fi名称'
+                    inputValue={ssid} />
+                <MySwitch
+                    onChange={(val) => { setWifiHide(val) }}
+                    title='Wi-Fi隐藏'
+                    value={wifiHide} />
+                <MyPicker
+                    onChange={(val) => { setEncryType(val) }}
+                    title='加密方式'
+                    value={encryType}
+                    options={option.encryption_option} />
 
-                </List>
-                <WhiteSpace size="lg" />
-                <List>
-                    <List.Item
-                        extra={
-                            <Switch
-                                checked={showAdv}
-                                onChange={val => setShowAdv(val)}
-                            />
-                        }
-                    >显示高级设置</List.Item>
-                </List>
+                {encryType == 'OPEN' ? null : encryType == 'WEP' ?
+                    <>
+                        <MyPicker
+                            onChange={(val) => { setWepType(val) }}
+                            title='WEP认证'
+                            value={wepType}
+                            options={option.wep_option} />
+                        <MyPicker
+                            onChange={(val) => { setKeylen(val) }}
+                            title='加密长度'
+                            value={keylen}
+                            options={option.keylen_option} />
+                        <MyInput
+                            onChange={(val) => { setKey(val) }}
+                            title='密钥'
+                            inputValue={key} />
+                    </> :
+                    <>
+                        <MyPicker
+                            onChange={(val) => { setWpaEncryType(val) }}
+                            title='WPA加密'
+                            value={wpaEncryType}
+                            options={option.wpa_option} />
+                        <MyInput
+                            onChange={(val) => { setPassword(val) }}
+                            title='密码'
+                            password={true}
+                            inputValue={password} />
+                    </>
+                }
+                <MySwitch
+                    onChange={(val) => { setWmm(val) }}
+                    title='WMM'
+                    value={wmm} />
+                <MySwitch
+                    onChange={(val) => { setShowAdv(val) }}
+                    title='显示高级设置'
+                    value={showAdv} />
             </>
         )
     }
     const WifiAdv = () => {
         return (
-            <List>
-                <Picker
-                    title="选择发射功率"
-                    data={option.power_option}
-                    cols={1}
+            <>
+                <Separator bordered>
+                    <Text>高级设置</Text>
+                </Separator>
+                <MyPicker
+                    onChange={(val) => { setPower(val) }}
+                    title='发射功率'
                     value={power}
-                    onChange={val => setPower(val)}
-                    onOk={val => setPower(val)}
-                >
-                    <List.Item arrow="horizontal">发射功率</List.Item>
-                </Picker>
-                <Picker
-                    title="选择信道"
-                    data={option.channel_option}
-                    cols={1}
+                    options={option.power_option} />
+                <MyPicker
+                    onChange={(val) => { setChannel(val) }}
+                    title='信道'
                     value={channel}
-                    onChange={val => setChannel(val)}
-                    onOk={val => setChannel(val)}
-                >
-                    <List.Item arrow="horizontal">信道</List.Item>
-                </Picker>
-                <Picker
-                    title="选择Wi-Fi工作模式"
-                    data={option.workMode_option}
-                    cols={1}
+                    options={option.channel_option} />
+                <MyPicker
+                    onChange={(val) => { setWorkMode(val) }}
+                    title='Wi-Fi工作模式'
                     value={workMode}
-                    onChange={val => setWorkMode(val)}
-                    onOk={val => setWorkMode(val)}
-                >
-                    <List.Item arrow="horizontal">Wi-Fi工作模式</List.Item>
-                </Picker>
-                <Picker
-                    title="选择带宽"
-                    data={option.bandwidth_option}
-                    cols={1}
+                    options={option.workMode_option} />
+                <MyPicker
+                    onChange={(val) => { setBandwidth(val) }}
+                    title='带宽'
                     value={bandwidth}
-                    onChange={val => setBandwidth(val)}
-                    onOk={val => setBandwidth(val)}
-                >
-                    <List.Item arrow="horizontal">带宽</List.Item>
-                </Picker>
-            </List>
+                    options={option.bandwidth_option} />
+            </>
         )
     }
     return (
         <ScrollView>
-            {/* {loading ? <Placeholders count={10} /> : <>
-                <List>
-                    <List.Item
-                        extra={
-                            <Switch
-                                checked={wifiOpen}
-                                onChange={val => setWifiOpen(val)}
-                            />
-                        }
-                    >Wi-Fi开关</List.Item>
-                </List>
-                {wifiOpen ? <><WifiSet />{showAdv ? <WifiAdv /> : null}</> : null}
-                <List>
-                    <List.Item>
-                        <Button
-                            type="primary"
-                            style={{ marginTop: 20 }}
-                            onPress={() => post()}>
-                            保存
-                </Button>
-                    </List.Item>
-                </List>
-                <WhiteSpace size="lg" />
-                <WhiteSpace size="lg" />
-            </>} */}
-
+            {loading ? <Placeholders count={10} /> :
+                <Container>
+                    <Content>
+                        <MySwitch
+                            onChange={(val) => { setWifiOpen(val) }}
+                            title='Wi-Fi开关'
+                            value={wifiOpen} />
+                        {wifiOpen ? <><WifiSet />{showAdv ? <WifiAdv /> : null}</> : null}
+                        <Button block info onPress={() => post()} style={{ marginTop: 20 }}>
+                            <Text>保存</Text>
+                        </Button>
+                    </Content>
+                </Container>}
         </ScrollView>
     )
 }
