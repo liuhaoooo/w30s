@@ -17,6 +17,11 @@ const data = [
     { icon: require("../../assets/images/5.png"), text: '系统设置', route: "SysSetting" }
   ],
   [
+    { icon: require("../../assets/images/6.png"), text: '安全设置', route: "Password" },
+    { icon: require("../../assets/images/7.png"), text: 'Wi-Fi定时', route: "Wifitiming" },
+    { icon: require("../../assets/images/8.png"), text: '定时重启', route: "Password" }
+  ],
+  [
     { icon: require("../../assets/images/6.png"), text: '退出登录', id: 1 },
     { icon: require("../../assets/images/7.png"), text: '重启设备', id: 2 },
     { icon: require("../../assets/images/8.png"), text: '恢复出厂', id: 3 }

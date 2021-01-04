@@ -11,7 +11,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 // } from '@react-navigation/drawer';
 import Main from './home/Main'
 import Info from './home/Info'
-import Status from './home/Status'
+import Tools from './home/Tools'
 // const Drawer = createDrawerNavigator();
 const Tab = createMaterialBottomTabNavigator();
 //主要内容
@@ -45,8 +45,8 @@ export default Home = () => {
                 }}
             />
             <Tab.Screen
-                name="Setting"
-                component={Status}
+                name="Tools"
+                component={Tools}
                 options={{
                     tabBarLabel: i18n.t('home.tool'),
                     tabBarIcon: ({ color, size }) => {

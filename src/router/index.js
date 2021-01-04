@@ -7,6 +7,7 @@ import Networksetting from '../pages/setting/Networksetting'
 import Password from '../pages/setting/Password'
 import Relay from '../pages/setting/Relay'
 import SysSetting from '../pages/setting/SysSetting'
+import Wifitiming from '../pages/setting/Wifitiming'
 //未连接WiFi
 export const disconnect = [
     { name: 'Disconnect', component: Disconnect, headerShown: false, title: '未连接WiFi' }
@@ -24,4 +25,5 @@ export const authScreens = [
     { name: 'Password', component: Password, headerShown: true, title: '修改密码' },
     { name: 'Relay', component: Relay, headerShown: true, title: '无线中继' },
     { name: 'SysSetting', component: SysSetting, headerShown: true, title: '系统设置' },
+    { name: 'Wifitiming', component: Wifitiming, headerShown: true, title: 'Wi-Fi定时' },
 ]

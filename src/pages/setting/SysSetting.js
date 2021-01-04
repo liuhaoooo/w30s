@@ -6,6 +6,45 @@ import {
     ScrollView,
 } from 'react-native';
 import { ActionSheet, Separator, Button, ListItem, Text, Icon, Left, Body, Right, Switch } from 'native-base';
+import { i18n } from '../../i18n/index';
+import { CMD } from '../../config/cmd'
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { fetchRequest_get, fetchRequest_post } from '../../common/fetchRequest'
+
+
+//led指示灯
+const LedSwitch = () => {
+    const [ledSwitchVal, setLedSwitchVal] = useState(true)
+    useFocusEffect(
+        React.useCallback(() => {
+            (async () => {
+                let res = await fetchRequest_get({ cmd: CMD.LED_SWITCH })
+                setLedSwitchVal(res.led_status == "0")
+            })()
+            return () => { }
+        }, [])
+    );
+    const changeLedSwitch = (val) => {
+        fetchRequest_post({ cmd: CMD.LED_SWITCH, led_status: val ? '0' : '1' }).then(() => {
+            setLedSwitchVal(val)
+        })
+    }
+    return (
+        <ListItem icon>
+            <Left>
+                <Button style={{ backgroundColor: "#FF9501" }}>
+                    <Icon active name="airplane" />
+                </Button>
+            </Left>
+            <Body>
+                <Text>指示灯开关</Text>
+            </Body>
+            <Right>
+                <Switch value={ledSwitchVal} onChange={() => changeLedSwitch(!ledSwitchVal)} />
+            </Right>
+        </ListItem>
+    )
+}
 export default SysSetting = () => {
     const [dynamicValidateForm, setdynamicValidateForm] = useState(
         {
@@ -26,19 +65,7 @@ export default SysSetting = () => {
     return (
         <ScrollView>
             <Separator bordered></Separator>
-            <ListItem icon>
-                <Left>
-                    <Button style={{ backgroundColor: "#FF9501" }}>
-                        <Icon active name="airplane" />
-                    </Button>
-                </Left>
-                <Body>
-                    <Text>指示灯开关</Text>
-                </Body>
-                <Right>
-                    <Switch value={false} />
-                </Right>
-            </ListItem>
+            <LedSwitch />
             <Pressable onPress={() =>
                 ActionSheet.show(
                     {

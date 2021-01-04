@@ -3,7 +3,7 @@ import { Appearance, TouchableOpacity } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-import { Root } from "native-base";
+import { Header,Root } from "native-base";
 // import { BlurView } from 'expo-blur';
 //react-navigation
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
