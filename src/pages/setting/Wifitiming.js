@@ -25,10 +25,12 @@ const _Item = ({ data, index, editPress, detelePress, switchChange }) => {
         </ListItem>
     )
 }
+// const datas = require('@bang88/china-city-data')
 export default Wifitiming = () => {
     const [data, setData] = useState([])
     const [modalVisible, setModalVisible] = useState(false);
     useEffect(() => {
+        // console.log(datas)
         getData()
     }, [])
     const getData = async () => {
@@ -84,6 +86,15 @@ export default Wifitiming = () => {
         setData(data.map((item, key) => key == index ? { ...item, timing_switch: val === '0' ? '1' : '0' } : item))
     }
     const Modals = () => {
+        const [value, setValue] = useState([])
+        const weeks = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+        const option = [
+            { label: "1", value: '1' },
+            { label: "2", value: '2' },
+            { label: "3", value: '3' },
+            { label: "4", value: '4' },
+            { label: "5", value: '5' }
+        ]
         return (
             <Modal
                 animationType="slide"
@@ -93,40 +104,34 @@ export default Wifitiming = () => {
                     setModalVisible(false);
                 }}
             >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <View style={styles.modal_content}>
-
-                            <View>
-                                <CheckBox checked={true} />
-                                <Text>Daily Stand Up</Text>
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <View style={styles.modal_content}>
+                                <View style={{ flex: 1, backgroundColor: '#ccc' }}>
+                                    
+                                </View>
+                                <View style={{ flex: 1 }}>
+                                    {
+                                        weeks.map((item, index) => (
+                                            <View style={styles.modal_chackbox} key={index}>
+                                                <CheckBox checked={true} />
+                                                <Text>{item}</Text>
+                                            </View>
+                                        ))
+                                    }
+                                </View>
                             </View>
-                            <View>
-                                <CheckBox checked={true} />
-                                <Text>Daily Stand Up</Text>
+                            <View style={styles.modal_footer}>
+                                <Button rounded warning block style={styles.modal_btn} onPress={() => setModalVisible(false)}>
+                                    <Text>取消</Text>
+                                </Button>
+                                <Separator style={{ backgroundColor: '#fff' }} />
+                                <Button block rounded info style={styles.modal_btn}>
+                                    <Text>确定</Text>
+                                </Button>
                             </View>
-                            <View>
-                                <CheckBox checked={true} />
-                                <Text>Daily Stand Up</Text>
-                            </View>
-                            <View>
-                                <CheckBox checked={true} />
-                                <Text>Daily Stand Up</Text>
-                            </View>
-                            
-
-                        </View>
-                        <View style={styles.model_footer}>
-                            <Button rounded warning block style={styles.modal_btn} onPress={() => setModalVisible(false)}>
-                                <Text>取消</Text>
-                            </Button>
-                            <Separator style={{ backgroundColor: '#fff' }} />
-                            <Button block rounded info style={styles.modal_btn}>
-                                <Text>确定</Text>
-                            </Button>
                         </View>
                     </View>
-                </View>
             </Modal>
         );
     };
@@ -189,14 +194,24 @@ const styles = StyleSheet.create({
     },
     modal_content: {
         flex: 1,
-        width:'100%'
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%'
     },
     textStyle: {
         color: "white",
         fontWeight: "bold",
         textAlign: "center"
     },
-    model_footer: {
+    modal_chackbox: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 5,
+        marginBottom: 5
+    },
+    modal_footer: {
         alignItems: 'center',
         flexDirection: 'row'
     },

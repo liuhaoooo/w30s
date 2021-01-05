@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { ScrollView, View } from 'react-native';
-import { Container, Content, Button, Text, Separator, Header } from 'native-base';
+import { Container, Content, Button, Text, Separator, Toast } from 'native-base';
 import base64 from 'react-native-base64'
 import { i18n } from '../../i18n/index';
 import { loading_tool } from '../../common/tools';
@@ -8,7 +8,14 @@ import { fetchRequest_get, fetchRequest_post } from '../../common/fetchRequest'
 import { useFocusEffect } from '@react-navigation/native';
 import Placeholders from '../../components/Placeholders'
 import { MySwitch, MyPicker, MyInput } from '../../components/FormItems'
-
+const toastConfig = {
+    text: '保存成功',
+    duration: 1000,
+    position: "center",
+    type: "success",
+    textStyle: { textAlign: 'center' },
+    style: { backgroundColor: 'rgba(103, 194, 58,1)' }
+}
 export default Wifiset_24g = ({ id, cmd, option }) => {
     let _isMounted = true
     const [wifiOpen, setWifiOpen] = useState(true)//wifi开关
@@ -64,7 +71,7 @@ export default Wifiset_24g = ({ id, cmd, option }) => {
         setLoading(false)
     }
     const post = () => {
-        loading_tool(true)
+        // loading_tool(true)
         postData()
     }
     const postData = () => {
@@ -75,10 +82,10 @@ export default Wifiset_24g = ({ id, cmd, option }) => {
             broadcast: wifiHide ? '1' : '0',
             ssid: base64.encode(ssid),
             key: password,
-            authenticationType: encryType[0],
-            wpa: wpaEncryType[0],
-            wepauthentication: wepType[0],
-            keylen: keylen[0],
+            authenticationType: encryType,
+            wpa: wpaEncryType,
+            wepauthentication: wepType,
+            keylen: keylen,
             key1: key,
             wifiwmm: wmm ? '1' : '0'
         }
@@ -93,23 +100,23 @@ export default Wifiset_24g = ({ id, cmd, option }) => {
     }
     const postData_adv = () => {
         if (!showAdv) {
-            loading_tool(false)
-            Toast.info({ content: '设置成功', duration: 1, mask: false })
+            // loading_tool(false)
+            Toast.show(toastConfig)
             return
         }
         let json = {
             cmd: cmd.post_adv,
-            txPower: power[0],
-            channel: channel[0],
-            wifiWorkMode: workMode[0],
-            bandWidth: bandwidth[0],
+            txPower: power,
+            channel: channel,
+            wifiWorkMode: workMode,
+            bandWidth: bandwidth,
         }
         fetchRequest_post(json).then(res => {
-            loading_tool(false)
-            Toast.info({ content: '设置成功', duration: 1, mask: false })
+            // loading_tool(false)
+            Toast.show(toastConfig)
         }).catch(err => {
-            loading_tool(false)
-            Toast.info({ content: '设置成功', duration: 1, mask: false })
+            // loading_tool(false)
+            Toast.show(toastConfig)
         })
     }
     const WifiSet = () => {

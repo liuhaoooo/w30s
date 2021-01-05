@@ -6,7 +6,8 @@ import { CMD } from "../../config/cmd";
 import { loading_tool } from '../../common/tools';
 import { fetchRequest_get, fetchRequest_post } from '../../common/fetchRequest'
 import { Button, Picker, Icon, Form, Item, Input, Label, Text, Toast } from 'native-base';
-import { MyPicker, MyInput } from '../../components/FormItems'
+import { MyPicker, MyInput,MyButton } from '../../components/FormItems'
+import { changeLoginStateAction } from '../../redux/action/index';
 
 const Password = (props) => {
     const navigation = useNavigation();
@@ -14,13 +15,13 @@ const Password = (props) => {
     const [newPasswd, setNewPasswd] = useState('')
     const [confirmPasswd, setConfirmPasswd] = useState('')
     const [userType, setUserType] = useState(['2'])
+    const [loading,setLoading] = useState(false)
     const toastConfig = {
         text: '修改成功',
         duration: 1000,
         position: "center",
         type: "success",
         textStyle: { textAlign: 'center' },
-        style: { backgroundColor: 'rgba(103, 194, 58,1)' }
     }
     const userType_option = [
         { label: '管理员账户', value: '1' },
@@ -34,6 +35,7 @@ const Password = (props) => {
     // }, [oldPasswdInput])
 
     function postData() {
+        setLoading(true)
         if (props.account_level == "1") {
             superadminPost()
         } else {
@@ -52,12 +54,12 @@ const Password = (props) => {
             json.tz_account = '3';
         }
         fetchRequest_post(json).then(res => {
-            loading_tool(false)
-            if (message === 'success') {
+            setLoading(false)
+            if (res.message === 'success') {
                 Toast.show(toastConfig)
                 navigation.goBack()
             } else {
-                Toast.show(toastConfig)
+                Toast.show({...toastConfig,text:'修改失败',type:'danger'})
             }
         });
     }
@@ -69,12 +71,12 @@ const Password = (props) => {
             old_passwd: oldPasswd
         }
         fetchRequest_post(json).then(res => {
-            loading_tool(false)
-            if (message === 'success') {
+            setLoading(false)
+            if (res.message === 'success') {
                 Toast.show(toastConfig)
-                navigation.goBack()
+                props.changeLoginState(false)
             } else {
-                Toast.show(toastConfig)
+                Toast.show({...toastConfig,text:'修改失败',type:'danger'})
             }
         });
     }
@@ -107,9 +109,7 @@ const Password = (props) => {
                     password={true}
                     inputValue={confirmPasswd} />
             </Form>
-            <Button block info onPress={() => postData()} style={{ marginTop: 20 }}>
-                <Text>确定</Text>
-            </Button>
+            <MyButton loading={loading} onPress={() => postData()}/>
         </ScrollView>
     )
 }
@@ -118,5 +118,11 @@ const mapStateToProps = (state) => {
         account_level: state.configData.account_level
     }
 }
-
-export default connect(mapStateToProps, null)(Password);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        changeLoginState: (value) => {
+            dispatch(changeLoginStateAction(value));
+        }
+    }
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Password);
